@@ -161,8 +161,10 @@ cython_debug/
 
 
 # Excel extenccion
-.xml
-.csv
-
+*.xml
+*.csv
+*.xls
+*.xlsx
+*.odt
 #test files
 test/
