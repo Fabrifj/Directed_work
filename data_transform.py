@@ -1,8 +1,12 @@
 import pandas as pd
 
 def main():
-    source_documents = ["ventas_vendedor_2016-2017.xls", "ventas_vendedor_2017-2018.xls","ventas_vendedor_2018-2019.xls",
-                       "ventas_vendedor_2019-2020.xls","ventas_vendedor_2020-2021.xls","ventas_vendedor_2021-2022.xls"]
+    source_documents = ["./documents/ventas_vendedor_2016-2017.xls","./documents/ventas_vendedor_2016-2017-2.xls",
+                        "./documents/ventas_vendedor_2017-2018.xls","./documents/ventas_vendedor_2017-2018-2.xls",
+                        "./documents/ventas_vendedor_2018-2019.xls","./documents/ventas_vendedor_2018-2019-2.xls",
+                        "./documents/ventas_vendedor_2019-2020.xls","./documents/ventas_vendedor_2019-2020-2.xls",
+                        "./documents/ventas_vendedor_2020-2021.xls","./documents/ventas_vendedor_2020-2021-2.xls",
+                        "./documents/ventas_vendedor_2021-2022.xls","./documents/ventas_vendedor_2021-2022-2.xls"]
     transformed_document = "total_sells.csv"
     data_frames = []
     try:
@@ -10,6 +14,7 @@ def main():
             df = read_excel_file(document)
             data_frames.append(clean_and_transform_data(df))
         final_df = pd.concat(data_frames, ignore_index=True)
+        final_df = final_df.drop_duplicates()
         save_transformed_data(final_df, transformed_document)
     except FileNotFoundError:
         print(f"The file '{document}' was not found.")
@@ -83,7 +88,7 @@ def combine_sales_and_products(df):
 def decorate_data(df):
     try:
         #Rename Columns
-        nombres_columnas = {0:'Codigo_venta', 1:'Fecha',2:'None1',3:'Almacen',4:'Caja',5: 'T_C',6: 'Codigo_cliente',7: 'Nombre_cliente',8: 'Codigo_vendedor',9: 'Codigo_proyecto',
+        nombres_columnas = {0:'Codigo_venta', 1:'Fecha',2:'None1',3:'Codigo_departamento',4:'Caja',5: 'T_C',6: 'Codigo_cliente',7: 'Nombre_cliente',8: 'Codigo_vendedor',9: 'Codigo_proyecto',
                     10:'None2', 11:'None3', 12:'None4',13:'None5',14:'Flag_venta', 15:'Codigo_producto',16:'None6', 17:'Nombre_producto',18:'None7', 19:'Linea_producto',20:'None8',21: 'Cantidad_vendida',
                     22:'Precio_total', 23:'Total_descuento', 24:'Total_facturado',25:'Total_impuesto', 26:'Total_venta', 27:'Total_contado',28:'Total_credito',29:'Flag_producto'
                     }
@@ -99,6 +104,7 @@ def decorate_data(df):
 def save_transformed_data(df, output_path):
     if df is not None:
         try:
+            print(f"Data frame shape: {df.shape}")
             df.to_csv(output_path, index=False)
             print("Data Frame saved correctly ")
 
