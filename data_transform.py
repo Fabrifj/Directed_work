@@ -1,13 +1,13 @@
 import pandas as pd
 
 def main():
-    source_documents = ["./documents/ventas_vendedor_2016-2017.xls","./documents/ventas_vendedor_2016-2017-2.xls",
-                        "./documents/ventas_vendedor_2017-2018.xls","./documents/ventas_vendedor_2017-2018-2.xls",
-                        "./documents/ventas_vendedor_2018-2019.xls","./documents/ventas_vendedor_2018-2019-2.xls",
-                        "./documents/ventas_vendedor_2019-2020.xls","./documents/ventas_vendedor_2019-2020-2.xls",
-                        "./documents/ventas_vendedor_2020-2021.xls","./documents/ventas_vendedor_2020-2021-2.xls",
-                        "./documents/ventas_vendedor_2021-2022.xls","./documents/ventas_vendedor_2021-2022-2.xls"]
-    transformed_document = "total_sells.csv"
+    source_documents = ["./db/documents/ventas_vendedor_2016-2017.xls","./db//documents/ventas_vendedor_2016-2017-2.xls",
+                        "./db//documents/ventas_vendedor_2017-2018.xls","./db//documents/ventas_vendedor_2017-2018-2.xls",
+                        "./db//documents/ventas_vendedor_2018-2019.xls","./db//documents/ventas_vendedor_2018-2019-2.xls",
+                        "./db//documents/ventas_vendedor_2019-2020.xls","./db//documents/ventas_vendedor_2019-2020-2.xls",
+                        "./db//documents/ventas_vendedor_2020-2021.xls","./db//documents/ventas_vendedor_2020-2021-2.xls",
+                        "./db//documents/ventas_vendedor_2021-2022.xls","./db//documents/ventas_vendedor_2021-2022-2.xls"]
+    transformed_document = "./documents/sells_2016-2022.csv"
     data_frames = []
     try:
         for document in source_documents:
@@ -83,12 +83,12 @@ def combine_sales_and_products(df):
     # Creamos un nuevo DataFrame con las filas combinadas
     df_combinado = pd.DataFrame(results, index=None)
     print("Data Frame combined correctly ")
-
     return df_combinado
+
 def decorate_data(df):
     try:
         #Rename Columns
-        nombres_columnas = {0:'Codigo_venta', 1:'Fecha',2:'None1',3:'Codigo_departamento',4:'Caja',5: 'T_C',6: 'Codigo_cliente',7: 'Nombre_cliente',8: 'Codigo_vendedor',9: 'Codigo_proyecto',
+        nombres_columnas = {0:'Codigo_venta', 1:'Fecha',2:'None1',3:'Codigo_almacen',4:'Caja',5: 'T_C',6: 'Codigo_cliente',7: 'Nombre_cliente',8: 'Codigo_vendedor',9: 'Codigo_proyecto',
                     10:'None2', 11:'None3', 12:'None4',13:'None5',14:'Flag_venta', 15:'Codigo_producto',16:'None6', 17:'Nombre_producto',18:'None7', 19:'Linea_producto',20:'None8',21: 'Cantidad_vendida',
                     22:'Precio_total', 23:'Total_descuento', 24:'Total_facturado',25:'Total_impuesto', 26:'Total_venta', 27:'Total_contado',28:'Total_credito',29:'Flag_producto'
                     }

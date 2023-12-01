@@ -3,8 +3,9 @@ USE PlastiForte
 DROP TABLE IF EXISTS fact_sells;
 DROP TABLE IF EXISTS fact_objective
 DROP TABLE IF EXISTS dim_client
-DROP TABLE IF EXISTS dim_departamento
+DROP TABLE IF EXISTS dim_departament
 DROP TABLE IF EXISTS dim_product
+DROP TABLE IF EXISTS dim_project
 DROP TABLE IF EXISTS dim_vendor
 DROP TABLE IF EXISTS dim_time
 
@@ -24,7 +25,7 @@ CREATE TABLE dim_vendor (
     Nombre_vendedor NVARCHAR(255)
 );
 
-CREATE TABLE dim_departamento (
+CREATE TABLE dim_departament(
     Codigo_departamento INT PRIMARY KEY,
     Departamento NVARCHAR(255)
 );
@@ -35,19 +36,25 @@ CREATE TABLE dim_product (
     Linea_producto NVARCHAR(255),
     Tipo_producto NVARCHAR(255)
 );
+CREATE TABLE dim_project (
+    Codigo_proyecto NVARCHAR(255)  PRIMARY KEY,
+    Ubicacion_proyecto NVARCHAR(255),
+	Total_venta INT
+);
+
 CREATE TABLE dim_time (
     Fecha DATE  PRIMARY KEY,
     Dia_semana NVARCHAR(255),
     Semana INT,
     Mes NVARCHAR(255),
     Numero_mes INT,
+    Trimestre INT,
     Ano INT
 );
 
 CREATE TABLE fact_sells(
     Codigo_venta BIGINT  NOT NULL,
     Fecha DATE ,
-    Codigo_proyecto NVARCHAR(255),
     Cantidad_vendida FLOAT,
 	Precio_unitario FLOAT,
     Precio_total FLOAT,
@@ -56,12 +63,15 @@ CREATE TABLE fact_sells(
     Total_venta FLOAT,
     Total_contado INT,
     Total_credito FLOAT,
+    Es_proyecto NVARCHAR(5),
+    Codigo_proyecto NVARCHAR(255),
     Codigo_departamento INT,
     Codigo_cliente NVARCHAR(255) NOT NULL,
     Codigo_vendedor INT NOT NULL,
     Codigo_producto NVARCHAR(255) NOT NULL,
 	PRIMARY KEY (Codigo_venta, Codigo_producto),
-	FOREIGN KEY (Codigo_departamento) REFERENCES dim_departamento(Codigo_departamento),
+	FOREIGN KEY (Codigo_proyecto) REFERENCES dim_project(Codigo_proyecto),
+	FOREIGN KEY (Codigo_departamento) REFERENCES dim_departament(Codigo_departamento),
 	FOREIGN KEY (Codigo_cliente) REFERENCES dim_client(Codigo_cliente),
     FOREIGN KEY (Codigo_vendedor) REFERENCES dim_vendor(Codigo_vendedor),
     FOREIGN KEY (Codigo_producto) REFERENCES dim_product(Codigo_producto),
